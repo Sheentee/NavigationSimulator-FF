@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Simulator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="main-layout">
+        <div class="fixed-header">
+            <div class="header header-no-margin">
+                <h1>Navigation Simulator</h1>
+                <div class="header-actions">
+                    <div class="header-status">
+                        <div class="status-indicator">
+                            <div class="dot" id="status-dot"></div>
+                            <span id="status-text">Inactive</span>
+                        </div>
+                        <div id="iteration-container" class="hidden">
+                            Loops: <span id="iteration-count">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="scrollable-content content-padded">
+
+            <div class="loop-delay-container">
+                <label class="label">Loop Delay (Seconds)</label>
+                <input type="number" id="loop-delay" class="input-field" min="0" value="5" placeholder="Delay after final step">
+            </div>
+
+            <div class="header header-small-margin">
+                <h2>Navigation Steps</h2>
+            </div>
+
+            <div id="steps-container">
+                <!-- Steps injected here -->
+            </div>
+            
+            <button id="add-step-btn">+ Add New Step</button>
+        </div>
+        
+        <div class="footer fixed-footer">
+            <div class="button-group">
+                <button id="save-config-btn">Save Config</button>
+                <button id="start-stop-btn" class="btn-start">Start Navigation</button>
+            </div>
+            <div id="save-msg"></div>
+        </div>
+    </div>
+    
+    <template id="step-template">
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-number">Step 1</span>
+                <div class="step-actions">
+                    <button class="btn-icon btn-icon-small move-up" title="Move Up">↑</button>
+                    <button class="btn-icon btn-icon-small move-down" title="Move Down">↓</button>
+                    <button class="btn-icon btn-icon-small delete-step" title="Remove">✕</button>
+                </div>
+            </div>
+            
+            <div class="url-label-row">
+                <label class="label label-no-margin">URL</label>
+                <button class="btn-icon btn-icon-small use-current-url" title="Use Current URL">Current Tab URL</button>
+            </div>
+            <input type="text" class="input-field step-url" placeholder="https://example.com/api">
+            
+            <div class="method-delay-row">
+                <div>
+                    <label class="label">Method</label>
+                    <select class="select-field step-method">
+                        <option value="GET">GET</option>
+                        <option value="POST">POST</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="label">Delay (Secs)</label>
+                    <input type="number" class="input-field step-delay" min="0" value="2">
+                </div>
+            </div>
+            
+            <div class="body-container hidden">
+                <label class="label">POST Body</label>
+                <textarea class="textarea-field step-body" placeholder='{"key": "value"}'></textarea>
+            </div>
+        </div>
+    </template>
+    
+    <script src="about-sheentee.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>

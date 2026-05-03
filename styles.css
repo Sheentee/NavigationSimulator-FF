@@ -1,0 +1,395 @@
+:root {
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --accent-color: #3b82f6;
+    --accent-hover: #2563eb;
+    --success-color: #10b981;
+    --error-color: #ef4444;
+    --border-radius: 12px;
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 700px;
+    height: 600px;
+    overflow: hidden;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+}
+
+.main-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.scrollable-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+/* Custom Scrollbar */
+.scrollable-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Typography */
+h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(to right, #60a5fa, #a78bfa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    color: var(--text-primary);
+}
+
+.label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+}
+
+/* Header & Footer */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.dot.online {
+    background-color: var(--success-color);
+    box-shadow: 0 0 8px var(--success-color);
+}
+
+/* Icon Buttons */
+.btn-icon {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.btn-icon:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.btn-icon img {
+    display: block;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.btn-icon:hover img {
+    opacity: 1;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    margin: 0;
+    background: var(--bg-color);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 16px 20px;
+    flex-shrink: 0;
+    z-index: 10;
+}
+
+.footer-info {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.footer-info a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.footer-info a:hover {
+    text-decoration: underline;
+}
+
+/* Additional Styles for Navigation Simulator */
+.fixed-header {
+    padding: 20px 20px 10px;
+    background: var(--bg-color);
+    z-index: 10;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.header-no-margin {
+    margin-bottom: 0 !important;
+}
+
+#iteration-container {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+.content-padded {
+    padding: 16px 20px !important;
+}
+
+.loop-delay-container {
+    margin-bottom: 16px;
+}
+
+.header-small-margin {
+    margin-bottom: 12px !important;
+}
+
+#add-step-btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    background: transparent;
+    color: var(--text-primary);
+    transition: all 0.2s;
+}
+
+#add-step-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.fixed-footer {
+    padding: 10px 20px 20px;
+    background: var(--bg-color);
+    z-index: 10;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.button-group {
+    display: flex;
+    gap: 8px;
+}
+
+#save-config-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    transition: background-color 0.2s;
+}
+
+#save-config-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.btn-start {
+    flex: 2;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    background-color: var(--success-color);
+    color: white;
+}
+
+.btn-start:hover {
+    opacity: 0.9;
+}
+
+.btn-stop {
+    flex: 2;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    background-color: var(--error-color);
+    color: white;
+}
+
+.btn-stop:hover {
+    opacity: 0.9;
+}
+
+#save-msg {
+    text-align: center;
+    color: var(--success-color);
+    font-size: 12px;
+    height: 16px;
+    margin-top: 8px;
+}
+
+.delete-step {
+    color: var(--error-color) !important;
+}
+
+.url-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.label-no-margin {
+    margin-bottom: 0 !important;
+}
+
+.use-current-url {
+    font-size: 10px;
+    padding: 2px 6px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.use-current-url:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.status-text-active {
+    color: var(--success-color);
+}
+
+.status-text-inactive {
+    color: var(--text-secondary);
+}
+
+.input-field, .select-field, .textarea-field {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: var(--text-primary);
+    padding: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.input-field:focus, .select-field:focus, .textarea-field:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+.textarea-field {
+    resize: vertical;
+    min-height: 60px;
+}
+
+.step-card {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.step-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.step-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.method-delay-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.method-delay-row > * {
+    flex: 1;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.section-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--accent-color);
+}
