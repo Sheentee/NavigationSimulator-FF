@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    const loopDelayInput = document.getElementById('loop-delay');
+
     const stepsContainer = document.getElementById('steps-container');
     const addStepBtn = document.getElementById('add-step-btn');
     const startStopBtn = document.getElementById('start-stop-btn');
@@ -27,13 +27,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const configs = data.tabConfigs || {};
     const config = configs[currentTabId] || {
         active: false,
-        loopDelay: 5,
         steps: []
     };
 
     // Initialize UI
     let isActive = config.active;
-    loopDelayInput.value = config.loopDelay;
+
     
     // Load initial stats
     const statsData = await chrome.storage.local.get(['tabStats']);
@@ -79,7 +78,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         configs[currentTabId] = {
             active: isActive,
-            loopDelay: parseFloat(loopDelayInput.value) || 0,
             steps: steps
         };
 
