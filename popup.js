@@ -21,12 +21,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     const iterationCount = document.getElementById('iteration-count');
 
     const template = document.getElementById('step-template').content;
+    const monitorInputTemplate = document.getElementById('monitor-input-template').content;
+
+    const monitorActive = document.getElementById('monitor-active');
+    const monitorConfigSection = document.getElementById('monitor-config-section');
+    const monitorUrl = document.getElementById('monitor-url');
+    const monitorInputsContainer = document.getElementById('monitor-inputs-container');
+    const addMonitorInputBtn = document.getElementById('add-monitor-input-btn');
 
     // Load config for this tab
     const data = await chrome.storage.local.get(['tabConfigs']);
     const configs = data.tabConfigs || {};
     const config = configs[currentTabId] || {
         active: false,
+        monitor: { active: false, url: '', inputs: [] },
         steps: []
     };
 
@@ -46,6 +54,41 @@ document.addEventListener('DOMContentLoaded', async () => {
     config.steps.forEach(step => addStepUI(step));
     if (config.steps.length === 0) {
         addStepUI();
+    }
+
+    // Initialize Monitor UI
+    monitorActive.checked = config.monitor?.active || false;
+    monitorUrl.value = config.monitor?.url || '';
+    updateMonitorVisibility();
+    
+    const savedMonitorInputs = config.monitor?.inputs || [];
+    savedMonitorInputs.forEach(input => addMonitorInputUI(input.selector, input.value));
+    if (savedMonitorInputs.length === 0) {
+        addMonitorInputUI();
+    }
+    
+    monitorActive.addEventListener('change', updateMonitorVisibility);
+    addMonitorInputBtn.addEventListener('click', () => addMonitorInputUI());
+
+    function updateMonitorVisibility() {
+        if (monitorActive.checked) {
+            monitorConfigSection.classList.remove('hidden');
+        } else {
+            monitorConfigSection.classList.add('hidden');
+        }
+    }
+
+    function addMonitorInputUI(selector = '', value = '') {
+        const clone = document.importNode(monitorInputTemplate, true);
+        const row = clone.querySelector('.monitor-input-row');
+        row.querySelector('.monitor-selector').value = selector;
+        row.querySelector('.monitor-value').value = value;
+        
+        row.querySelector('.delete-monitor-input').addEventListener('click', () => {
+            row.remove();
+        });
+        
+        monitorInputsContainer.appendChild(clone);
     }
 
     // Listen for stats updates
@@ -76,8 +119,23 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
 
+        const monitorInputs = [];
+        const monitorRows = monitorInputsContainer.querySelectorAll('.monitor-input-row');
+        for (const row of monitorRows) {
+            const selector = row.querySelector('.monitor-selector').value.trim();
+            const value = row.querySelector('.monitor-value').value;
+            if (selector) {
+                monitorInputs.push({ selector, value });
+            }
+        }
+
         configs[currentTabId] = {
             active: isActive,
+            monitor: {
+                active: monitorActive.checked,
+                url: monitorUrl.value.trim(),
+                inputs: monitorInputs
+            },
             steps: steps
         };
 

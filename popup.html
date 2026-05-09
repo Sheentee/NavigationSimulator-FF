@@ -30,6 +30,28 @@
 
 
             <div class="header header-small-margin">
+                <h2>Monitor Settings</h2>
+            </div>
+            
+            <div class="step-card" id="monitor-card">
+                <div class="url-label-row" style="margin-bottom: 8px;">
+                    <label class="label label-no-margin">Enable Monitor</label>
+                    <input type="checkbox" id="monitor-active">
+                </div>
+                
+                <div id="monitor-config-section" class="hidden">
+                    <label class="label">URL Pattern</label>
+                    <input type="text" id="monitor-url" class="input-field" placeholder="e.g. login">
+                    
+                    <label class="label">Form Inputs to Inject</label>
+                    <div id="monitor-inputs-container">
+                        <!-- Inputs injected here -->
+                    </div>
+                    <button id="add-monitor-input-btn" style="width: 100%; padding: 6px; margin-top: 4px; border: 1px dashed rgba(255, 255, 255, 0.2); border-radius: 6px; cursor: pointer; background: transparent; color: var(--text-primary); transition: all 0.2s; font-size: 12px;">+ Add Input</button>
+                </div>
+            </div>
+
+            <div class="header header-small-margin">
                 <h2>Navigation Steps</h2>
             </div>
 
@@ -84,6 +106,14 @@
                 <label class="label">POST Body</label>
                 <textarea class="textarea-field step-body" placeholder='{"key": "value"}'></textarea>
             </div>
+        </div>
+    </template>
+
+    <template id="monitor-input-template">
+        <div class="monitor-input-row" style="display: flex; gap: 8px; margin-bottom: 8px; align-items: center;">
+            <input type="text" class="input-field monitor-selector" placeholder="Input Name/ID" style="margin-bottom: 0;">
+            <input type="text" class="input-field monitor-value" placeholder="Value" style="margin-bottom: 0;">
+            <button class="btn-icon btn-icon-small delete-monitor-input" title="Remove" style="flex-shrink: 0;">✕</button>
         </div>
     </template>
     

@@ -55,6 +55,63 @@ chrome.tabs.onRemoved.addListener((tabId) => {
     });
 });
 
+// Monitor listener
+chrome.tabs.onUpdated.addListener((tabId, info, tab) => {
+    if (info.status === 'complete' && tab.url) {
+        chrome.storage.local.get(['tabConfigs'], (data) => {
+            const configs = data.tabConfigs || {};
+            const config = configs[tabId];
+            if (config && config.active && config.monitor && config.monitor.active && config.monitor.url) {
+                if (tab.url.includes(config.monitor.url)) {
+                    handleMonitorAction(tabId, config.monitor);
+                }
+            }
+        });
+    }
+});
+
+async function handleMonitorAction(tabId, monitorConfig) {
+    if (!monitorConfig.inputs || monitorConfig.inputs.length === 0) return;
+    
+    try {
+        await chrome.scripting.executeScript({
+            target: { tabId: tabId },
+            func: (inputs) => {
+                let formToSubmit = null;
+                for (const input of inputs) {
+                    let el = null;
+                    try {
+                        el = document.querySelector(`[name="${input.selector}"]`) || 
+                             document.getElementById(input.selector) ||
+                             document.querySelector(input.selector);
+                    } catch (e) {
+                        // ignore invalid selectors
+                    }
+                    
+                    if (el) {
+                        el.value = input.value;
+                        if (!formToSubmit && el.form) {
+                            formToSubmit = el.form;
+                        }
+                    }
+                }
+                if (formToSubmit) {
+                    formToSubmit.submit();
+                } else {
+                    // Try finding any submit button if form is not standard
+                    const submitBtn = document.querySelector('button[type="submit"], input[type="submit"]');
+                    if (submitBtn) {
+                        submitBtn.click();
+                    }
+                }
+            },
+            args: [monitorConfig.inputs]
+        });
+    } catch (err) {
+        console.error("Monitor injection error:", err);
+    }
+}
+
 // Handle Alarms
 chrome.alarms.onAlarm.addListener((alarm) => {
     if (alarm.name.startsWith('simulate_')) {
