@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Navigation Simulator",
-    "version": "1.2",
+    "version": "1.3",
     "description": "Configure an arbitrary number of navigation steps with a configurable delay between each action.",
     "permissions": [
         "storage",

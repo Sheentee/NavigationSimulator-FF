@@ -111,8 +111,11 @@
 
     <template id="monitor-input-template">
         <div class="monitor-input-row" style="display: flex; gap: 8px; margin-bottom: 8px; align-items: center;">
-            <input type="text" class="input-field monitor-selector" placeholder="Input Name/ID" style="margin-bottom: 0;">
-            <input type="text" class="input-field monitor-value" placeholder="Value" style="margin-bottom: 0;">
+            <input type="text" class="input-field monitor-selector" placeholder="Input Name/ID" style="margin-bottom: 0; flex: 1; min-width: 0;">
+            <input type="text" class="input-field monitor-value" placeholder="Value" style="margin-bottom: 0; flex: 1; min-width: 0;">
+            <label class="label-no-margin" style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-secondary); cursor: pointer; flex-shrink: 0;">
+                <input type="checkbox" class="monitor-is-password" style="margin: 0;"> Pwd
+            </label>
             <button class="btn-icon btn-icon-small delete-monitor-input" title="Remove" style="flex-shrink: 0;">✕</button>
         </div>
     </template>

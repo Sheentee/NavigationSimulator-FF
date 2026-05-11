@@ -1,4 +1,11 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    // Set dynamic version in title
+    const manifest = chrome.runtime.getManifest();
+    const titleElement = document.querySelector('h1');
+    if (titleElement && manifest && manifest.version) {
+        titleElement.textContent = `Navigation Simulator v${manifest.version}`;
+    }
+
     let currentTabId = null;
 
     // Get current tab
@@ -62,7 +69,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateMonitorVisibility();
     
     const savedMonitorInputs = config.monitor?.inputs || [];
-    savedMonitorInputs.forEach(input => addMonitorInputUI(input.selector, input.value));
+    savedMonitorInputs.forEach(input => addMonitorInputUI(input.selector, input.value, input.isPassword));
     if (savedMonitorInputs.length === 0) {
         addMonitorInputUI();
     }
@@ -78,11 +85,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    function addMonitorInputUI(selector = '', value = '') {
+    function addMonitorInputUI(selector = '', value = '', isPassword = false) {
         const clone = document.importNode(monitorInputTemplate, true);
         const row = clone.querySelector('.monitor-input-row');
         row.querySelector('.monitor-selector').value = selector;
-        row.querySelector('.monitor-value').value = value;
+        
+        const valueInput = row.querySelector('.monitor-value');
+        valueInput.value = value;
+        
+        const pwdCheckbox = row.querySelector('.monitor-is-password');
+        pwdCheckbox.checked = isPassword;
+        valueInput.type = isPassword ? 'password' : 'text';
+        
+        pwdCheckbox.addEventListener('change', (e) => {
+            valueInput.type = e.target.checked ? 'password' : 'text';
+        });
         
         row.querySelector('.delete-monitor-input').addEventListener('click', () => {
             row.remove();
@@ -124,8 +141,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         for (const row of monitorRows) {
             const selector = row.querySelector('.monitor-selector').value.trim();
             const value = row.querySelector('.monitor-value').value;
+            const isPassword = row.querySelector('.monitor-is-password').checked;
             if (selector) {
-                monitorInputs.push({ selector, value });
+                monitorInputs.push({ selector, value, isPassword });
             }
         }
 
